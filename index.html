@@ -122,8 +122,10 @@
 </main>
 
 <script>
-  // Configuration
-  // Adjust this path if your GitHub pages serves from a different root directory
+  // ==========================================
+  // CONFIGURATION
+  // ==========================================
+  // Ensure this exactly matches the folder and file name in your repo
   const CSV_URL = 'Report/Volume_Gainers_Latest.csv'; 
   const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -157,7 +159,7 @@
     tbody.innerHTML = '';
 
     try {
-      // Append timestamp to prevent aggressive browser/CDN caching on GitHub Pages
+      // Fetch the CSV directly. The '?t=' cache-buster ensures you don't get stuck with a stale file from GitHub's CDN
       const response = await fetch(`${CSV_URL}?t=${new Date().getTime()}`);
       
       if (!response.ok) {
@@ -179,7 +181,7 @@
 
     } catch (error) {
       console.error('Error fetching data:', error);
-      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--red);">Error loading data. Ensure the Python script has run and the file path is correct.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--red);">Error loading data. Ensure the Python script has run and the file path '${CSV_URL}' is correct.</td></tr>`;
     } finally {
       loader.classList.add('hidden');
     }
