@@ -9,7 +9,7 @@ import urllib.parse  # 👈 Added for standalone HTML downloads
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
 FILE_PATH   = os.path.join(BASE_DIR, "nse500list.csv")
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
-os.makedirs(REPORTS_DIR, exist_ok=True)
+os.makedirs(reports_dir, exist_ok=True)
 
 # ── Timestamp (IST) ──────────────────────────────────────────────────────────
 IST           = pytz.timezone("Asia/Kolkata")
@@ -18,8 +18,9 @@ timestamp_str = now_ist.strftime("%Y-%m-%d_%H-%M")
 display_time  = now_ist.strftime("%d-%b-%Y  %I:%M %p IST")
 
 # Output files
-output_csv    = os.path.join(REPORTS_DIR, f"{timestamp_str}.csv")
-output_html   = os.path.join(REPORTS_DIR, f"{timestamp_str}.html")
+output_dir = "reports" 
+output_file = f"{output_dir}/Volume_Gainers_Latest.csv"
+os.makedirs(output_dir, exist_ok=True)
 
 EMPTY_COLS = ["Ticker", "Current Price (₹)", "Prev Close (₹)", "Gain %",
               "Volume", "10D Avg Volume", "Vol Surge (x)", "Scan Time (IST)"]
