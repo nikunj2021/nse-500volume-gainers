@@ -23,7 +23,6 @@
       min-height: 100vh;
     }
 
-    /* Header & Controls */
     header {
       background: var(--card);
       border-bottom: 1px solid var(--border);
@@ -52,7 +51,6 @@
     }
     button.refresh-btn:hover { background: #444c56; }
 
-    /* Main Table Container */
     main { padding: 32px; max-width: 1000px; margin: 0 auto; }
     
     .table-container {
@@ -78,10 +76,12 @@
     tr:last-child td { border-bottom: none; }
 
     .symbol { font-weight: 600; color: var(--accent); }
-    .positive { color: var(--green); }
-    .negative { color: var(--red); }
+    .badge {
+      display: inline-block; color: #fff; padding: 3px 9px;
+      border-radius: 4px; font-weight: 600; font-size: 0.82rem;
+      min-width: 62px; text-align: center;
+    }
     
-    /* Loader */
     #loader { text-align: center; padding: 40px; color: var(--muted); }
     .hidden { display: none; }
   </style>
@@ -90,7 +90,7 @@
 
 <header>
   <div class="title-group">
-    <h1>NSE Live Volume Breakouts</h1>
+    <h1>📈 NSE 500 — Volume Gainers</h1>
     <p id="last-updated">Last fetched: --</p>
   </div>
   <div class="controls">
@@ -109,36 +109,40 @@
         <tr>
           <th>Symbol</th>
           <th>Current Price (₹)</th>
-          <th>% Change</th>
+          <th>Change %</th>
           <th>Volume (M)</th>
           <th>10D SMA Vol (M)</th>
         </tr>
       </thead>
       <tbody id="table-body">
-        </tbody>
+      </tbody>
     </table>
     <div id="loader">Fetching latest market data...</div>
   </div>
 </main>
 
 <script>
-  // ==========================================
-  // CONFIGURATION
-  // ==========================================
-  // Ensure this exactly matches the folder and file name in your repo
+  // Pointing precisely to the static file overwritten by your Python script
   const CSV_URL = 'reports/Volume_Gainers_Latest.csv'; 
-  const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
+  const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
-  // Format numbers to Millions
   const formatMillions = (numStr) => {
     const num = parseFloat(numStr);
     if (isNaN(num)) return '-';
     return (num / 1000000).toFixed(2) + ' M';
   };
 
-  // Simple CSV Parser
+  const getGainColor = (pct) => {
+    if (pct >= 5) return "#1a7a3c";
+    if (pct >= 3) return "#27ae60";
+    if (pct >= 1) return "#82c99f";
+    if (pct > 0) return "#c8ecd5";
+    return "transparent";
+  };
+
   const parseCSV = (str) => {
     const lines = str.trim().split('\n');
+    if (lines.length === 0) return [];
     const headers = lines[0].split(',').map(h => h.trim());
     return lines.slice(1).map(line => {
       const values = line.split(',');
@@ -159,17 +163,12 @@
     tbody.innerHTML = '';
 
     try {
-      // Fetch the CSV directly. The '?t=' cache-buster ensures you don't get stuck with a stale file from GitHub's CDN
       const response = await fetch(`${CSV_URL}?t=${new Date().getTime()}`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       
       const csvText = await response.text();
       const data = parseCSV(csvText);
 
-      // Check if Python script outputted the "No stocks met criteria" message
       if (data.length > 0 && data[0].Message) {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 20px; color: var(--muted);">${data[0].Message}</td></tr>`;
       } else {
@@ -181,7 +180,7 @@
 
     } catch (error) {
       console.error('Error fetching data:', error);
-      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--red);">Error loading data. Ensure the Python script has run and the file path '${CSV_URL}' is correct.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--red);">Error loading data. Ensure the Python script has run and saved to 'reports/Volume_Gainers_Latest.csv'.</td></tr>`;
     } finally {
       loader.classList.add('hidden');
     }
@@ -191,18 +190,17 @@
     const tbody = document.getElementById('table-body');
     
     data.forEach(row => {
-      // Skip empty rows caused by trailing newlines
       if (!row['Ticker Name']) return; 
 
       const gain = parseFloat(row['Gain %']);
-      const gainClass = gain > 0 ? 'positive' : (gain < 0 ? 'negative' : '');
+      const gainColor = getGainColor(gain);
       const gainPrefix = gain > 0 ? '+' : '';
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td class="symbol">${row['Ticker Name']}</td>
-        <td>${parseFloat(row['Current Price']).toFixed(2)}</td>
-        <td class="${gainClass}">${gainPrefix}${gain.toFixed(2)}%</td>
+        <td>₹ ${parseFloat(row['Current Price']).toFixed(2)}</td>
+        <td><span class="badge" style="background:${gainColor}; color: ${gain > 1 ? '#fff' : '#000'}">${gainPrefix}${gain.toFixed(2)}%</span></td>
         <td>${formatMillions(row['Volume'])}</td>
         <td>${formatMillions(row['10 Days Avg Volume'])}</td>
       `;
@@ -210,10 +208,7 @@
     });
   };
 
-  // Initialize
   fetchData();
-  
-  // Set up auto-refresh
   setInterval(fetchData, REFRESH_INTERVAL_MS);
 </script>
 
