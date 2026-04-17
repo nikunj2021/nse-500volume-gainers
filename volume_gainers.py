@@ -3,11 +3,10 @@ import yfinance as yf
 import os
 from datetime import datetime
 import pytz
+import urllib.parse  # 👈 Added for standalone HTML downloads
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
-
-# ⚠️ Ensure nse500list.csv is actually in this folder! 
 FILE_PATH   = os.path.join(BASE_DIR, "nse500list.csv")
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
 os.makedirs(REPORTS_DIR, exist_ok=True)
@@ -93,23 +92,27 @@ for ticker in tickers:
 final_df = pd.DataFrame(results) if results else pd.DataFrame(columns=EMPTY_COLS)
 
 if not final_df.empty:
-    # Sort and save standard CSV
+    # Sort and save standard CSV to disk
     final_df = final_df.sort_values("Gain %", ascending=False).reset_index(drop=True)
     final_df.to_csv(output_csv, index=False)
     
     print(f"  ✓ {len(final_df)} stocks found")
+
+    # 🟢 NEW: Encode CSV data directly for the HTML button
+    csv_string = final_df.to_csv(index=False)
+    encoded_csv = urllib.parse.quote(csv_string)
+    data_uri = f"data:text/csv;charset=utf-8,{encoded_csv}"
+    download_filename = f"Volume_Gainers_{timestamp_str}.csv"
 
     # Format Data specifically for HTML requirements
     html_df = pd.DataFrame()
     html_df["Symbol"] = final_df["Ticker"]
     html_df["Current Price"] = final_df["Current Price (₹)"]
     html_df["Percentage Change (%)"] = final_df["Gain %"]
-    # Convert Volumes to Millions and round to 2 decimals
     html_df["Volume (in million)"] = (final_df["Volume"] / 1_000_000).round(2)
     html_df["10 days SMA volume (in million)"] = (final_df["10D Avg Volume"] / 1_000_000).round(2)
 
     # Render HTML template with CSS
-    csv_filename = os.path.basename(output_csv)
     table_html = html_df.to_html(index=False, border=0, classes="styled-table")
 
     html_template = f"""
@@ -120,82 +123,25 @@ if not final_df.empty:
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Volume Gainers - {display_time}</title>
         <style>
-            body {{
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                margin: 40px;
-                background-color: #f4f7f6;
-                color: #333;
-            }}
-            .container {{
-                max-width: 1000px;
-                margin: auto;
-                background: white;
-                padding: 30px;
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }}
-            .header {{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 2px solid #ececec;
-                padding-bottom: 15px;
-                margin-bottom: 20px;
-            }}
-            h2 {{
-                margin: 0;
-                color: #2c3e50;
-            }}
-            .btn-download {{
-                background-color: #27ae60;
-                color: white;
-                padding: 10px 20px;
-                text-decoration: none;
-                border-radius: 5px;
-                font-weight: bold;
-                transition: background 0.3s;
-                display: inline-block;
-            }}
-            .btn-download:hover {{
-                background-color: #219150;
-            }}
-            .table-wrapper {{
-                overflow-x: auto; /* Allows horizontal scrolling if table is too wide */
-                max-height: 600px; /* Enables vertical scrolling for long lists */
-                overflow-y: auto;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-            }}
-            .styled-table {{
-                width: 100%;
-                border-collapse: collapse;
-                font-size: 0.95em;
-                text-align: left;
-            }}
-            .styled-table thead {{
-                position: sticky;
-                top: 0;
-                background-color: #2980b9;
-                color: #ffffff;
-                z-index: 1; /* Keeps header above rows when scrolling */
-            }}
-            .styled-table th, .styled-table td {{
-                padding: 12px 15px;
-                border-bottom: 1px solid #dddddd;
-            }}
-            .styled-table tbody tr:nth-of-type(even) {{
-                background-color: #f9f9f9;
-            }}
-            .styled-table tbody tr:hover {{
-                background-color: #f1f1f1;
-            }}
+            body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 40px; background-color: #f4f7f6; color: #333; }}
+            .container {{ max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }}
+            .header {{ display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ececec; padding-bottom: 15px; margin-bottom: 20px; }}
+            h2 {{ margin: 0; color: #2c3e50; }}
+            .btn-download {{ background-color: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background 0.3s; display: inline-block; cursor: pointer; }}
+            .btn-download:hover {{ background-color: #219150; }}
+            .table-wrapper {{ overflow-x: auto; max-height: 600px; overflow-y: auto; border: 1px solid #ddd; border-radius: 5px; }}
+            .styled-table {{ width: 100%; border-collapse: collapse; font-size: 0.95em; text-align: left; }}
+            .styled-table thead {{ position: sticky; top: 0; background-color: #2980b9; color: #ffffff; z-index: 1; }}
+            .styled-table th, .styled-table td {{ padding: 12px 15px; border-bottom: 1px solid #dddddd; }}
+            .styled-table tbody tr:nth-of-type(even) {{ background-color: #f9f9f9; }}
+            .styled-table tbody tr:hover {{ background-color: #f1f1f1; }}
         </style>
     </head>
     <body>
         <div class="container">
             <div class="header">
                 <h2>📈 NSE 500 Volume Gainers</h2>
-                <a href="{csv_filename}" class="btn-download" download>📥 Download CSV</a>
+                <a href="{data_uri}" download="{download_filename}" class="btn-download">📥 Download CSV</a>
             </div>
             <p><strong>Scan Time:</strong> {display_time}</p>
             
