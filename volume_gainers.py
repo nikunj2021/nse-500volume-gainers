@@ -98,61 +98,182 @@ if not final_df.empty:
     
     print(f"  ✓ {len(final_df)} stocks found")
 
-    # 🟢 NEW: Encode CSV data directly for the HTML button
+    # Encode CSV data as data URI for optional inline download button
     csv_string = final_df.to_csv(index=False)
     encoded_csv = urllib.parse.quote(csv_string)
     data_uri = f"data:text/csv;charset=utf-8,{encoded_csv}"
     download_filename = f"Volume_Gainers_{timestamp_str}.csv"
 
-    # Format Data specifically for HTML requirements
-    html_df = pd.DataFrame()
-    html_df["Symbol"] = final_df["Ticker"]
-    html_df["Current Price"] = final_df["Current Price (₹)"]
-    html_df["Percentage Change (%)"] = final_df["Gain %"]
-    html_df["Volume (in million)"] = (final_df["Volume"] / 1_000_000).round(2)
-    html_df["10 days SMA volume (in million)"] = (final_df["10D Avg Volume"] / 1_000_000).round(2)
+    # ── Build HTML rows with colour-coded % Change ────────────────────────────
+    def gain_bg(pct):
+        """Return a green background shade based on gain magnitude."""
+        if   pct >= 5:  return "#1a7a3c"   # dark green  – strong
+        elif pct >= 3:  return "#27ae60"   # medium green
+        elif pct >= 1:  return "#82c99f"   # light green
+        else:           return "#c8ecd5"   # very light green
 
-    # Render HTML template with CSS
-    table_html = html_df.to_html(index=False, border=0, classes="styled-table")
+    rows_html = ""
+    for i, row in enumerate(final_df.itertuples(index=False)):
+        bg_row   = "#ffffff" if i % 2 == 0 else "#f7f9f8"
+        gain_pct = row[3]   # index: Gain %
+        gain_col = gain_bg(gain_pct)
+        vol_m    = round(row[4] / 1_000_000, 2)      # Volume → millions
+        sma_m    = round(row[5] / 1_000_000, 2)      # 10D Avg → millions
+        rows_html += (
+            f'<tr style="background:{bg_row}">'
+            f'<td>{row[0]}</td>'                              # Symbol
+            f'<td>₹ {row[1]:,.2f}</td>'                      # Current Price
+            f'<td><span class="badge" style="background:{gain_col}">{gain_pct:+.2f}%</span></td>'
+            f'<td>{vol_m:.2f}</td>'                           # Volume (M)
+            f'<td>{sma_m:.2f}</td>'                           # 10D SMA (M)
+            f'</tr>\n'
+        )
 
-    html_template = f"""
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Volume Gainers - {display_time}</title>
-        <style>
-            body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 40px; background-color: #f4f7f6; color: #333; }}
-            .container {{ max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }}
-            .header {{ display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ececec; padding-bottom: 15px; margin-bottom: 20px; }}
-            h2 {{ margin: 0; color: #2c3e50; }}
-            .btn-download {{ background-color: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background 0.3s; display: inline-block; cursor: pointer; }}
-            .btn-download:hover {{ background-color: #219150; }}
-            .table-wrapper {{ overflow-x: auto; max-height: 600px; overflow-y: auto; border: 1px solid #ddd; border-radius: 5px; }}
-            .styled-table {{ width: 100%; border-collapse: collapse; font-size: 0.95em; text-align: left; }}
-            .styled-table thead {{ position: sticky; top: 0; background-color: #2980b9; color: #ffffff; z-index: 1; }}
-            .styled-table th, .styled-table td {{ padding: 12px 15px; border-bottom: 1px solid #dddddd; }}
-            .styled-table tbody tr:nth-of-type(even) {{ background-color: #f9f9f9; }}
-            .styled-table tbody tr:hover {{ background-color: #f1f1f1; }}
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="header">
-                <h2>📈 NSE 500 Volume Gainers</h2>
-                <a href="{data_uri}" download="{download_filename}" class="btn-download">📥 Download CSV</a>
-            </div>
-            <p><strong>Scan Time:</strong> {display_time}</p>
-            
-            <div class="table-wrapper">
-                {table_html}
-            </div>
-            
-        </div>
-    </body>
-    </html>
-    """
+    stock_count = len(final_df)
+
+    html_template = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volume Gainers – {display_time}</title>
+  <style>
+    *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+
+    html, body {{
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f2f1;
+      color: #2c3e50;
+      display: flex;
+      flex-direction: column;
+    }}
+
+    /* ── Sticky top bar ──────────────────────────────────────────────────── */
+    .topbar {{
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #1b2a38;
+      color: #ecf0f1;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      flex-shrink: 0;
+    }}
+    .topbar-left   {{ display: flex; align-items: center; gap: 14px; }}
+    .topbar-title  {{ font-size: 1.1rem; font-weight: 700; letter-spacing: 0.3px; }}
+    .topbar-meta   {{ font-size: 0.78rem; color: #95a5a6; }}
+    .topbar-badge  {{
+      background: #2ecc71; color: #fff;
+      font-size: 0.72rem; font-weight: 600;
+      padding: 3px 9px; border-radius: 20px;
+    }}
+
+    /* optional download – subtle text link */
+    .btn-download {{
+      font-size: 0.78rem; color: #7fb3d3;
+      text-decoration: none; white-space: nowrap;
+      padding: 4px 10px; border: 1px solid #3d5a72;
+      border-radius: 4px; transition: all 0.2s;
+    }}
+    .btn-download:hover {{ color: #fff; border-color: #7fb3d3; background: #3d5a72; }}
+
+    /* ── Scrollable table area ───────────────────────────────────────────── */
+    .scroll-area {{
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: auto;
+      padding: 20px 24px 32px;
+    }}
+
+    table {{
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }}
+
+    thead {{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #1e3a50;
+      color: #ecf0f1;
+    }}
+    thead th {{
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      border-bottom: 2px solid #2980b9;
+    }}
+
+    tbody td {{
+      padding: 10px 16px;
+      border-bottom: 1px solid #eaecee;
+      white-space: nowrap;
+    }}
+    tbody tr:last-child td {{ border-bottom: none; }}
+    tbody tr:hover td {{ background: #eaf4fb !important; }}
+
+    /* Symbol — bold */
+    tbody td:first-child {{ font-weight: 600; }}
+
+    /* % Change badge */
+    .badge {{
+      display: inline-block;
+      color: #fff;
+      padding: 3px 9px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.82rem;
+      min-width: 62px;
+      text-align: center;
+    }}
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-title">📈 NSE 500 — Volume Gainers</span>
+      <span class="topbar-badge">{stock_count} stocks</span>
+      <span class="topbar-meta">Scan: {display_time}</span>
+    </div>
+    <a href="{data_uri}" download="{download_filename}" class="btn-download">⬇ CSV</a>
+  </div>
+
+  <div class="scroll-area">
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Current Price (₹)</th>
+          <th>Change %</th>
+          <th>Volume (M)</th>
+          <th>10D SMA Vol (M)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows_html}
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>"""
 
     # Save HTML output
     with open(output_html, "w", encoding="utf-8") as f:
