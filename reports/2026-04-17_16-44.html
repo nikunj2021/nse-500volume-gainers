@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volume Gainers – 17-Apr-2026  04:44 PM IST</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f2f1;
+      color: #2c3e50;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Sticky top bar ──────────────────────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #1b2a38;
+      color: #ecf0f1;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      flex-shrink: 0;
+    }
+    .topbar-left   { display: flex; align-items: center; gap: 14px; }
+    .topbar-title  { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.3px; }
+    .topbar-meta   { font-size: 0.78rem; color: #95a5a6; }
+    .topbar-badge  {
+      background: #2ecc71; color: #fff;
+      font-size: 0.72rem; font-weight: 600;
+      padding: 3px 9px; border-radius: 20px;
+    }
+
+    /* optional download – subtle text link */
+    .btn-download {
+      font-size: 0.78rem; color: #7fb3d3;
+      text-decoration: none; white-space: nowrap;
+      padding: 4px 10px; border: 1px solid #3d5a72;
+      border-radius: 4px; transition: all 0.2s;
+    }
+    .btn-download:hover { color: #fff; border-color: #7fb3d3; background: #3d5a72; }
+
+    /* ── Scrollable table area ───────────────────────────────────────────── */
+    .scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: auto;
+      padding: 20px 24px 32px;
+    }
+
+    table {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #1e3a50;
+      color: #ecf0f1;
+    }
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      border-bottom: 2px solid #2980b9;
+    }
+
+    tbody td {
+      padding: 10px 16px;
+      border-bottom: 1px solid #eaecee;
+      white-space: nowrap;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: #eaf4fb !important; }
+
+    /* Symbol — bold */
+    tbody td:first-child { font-weight: 600; }
+
+    /* % Change badge */
+    .badge {
+      display: inline-block;
+      color: #fff;
+      padding: 3px 9px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.82rem;
+      min-width: 62px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-title">📈 NSE 500 — Volume Gainers</span>
+      <span class="topbar-badge">100 stocks</span>
+      <span class="topbar-meta">Scan: 17-Apr-2026  04:44 PM IST</span>
+    </div>
+    <a href="data:text/csv;charset=utf-8,Ticker%2CCurrent%20Price%20%28%E2%82%B9%29%2CPrev%20Close%20%28%E2%82%B9%29%2CGain%20%25%2CVolume%2C10D%20Avg%20Volume%2CVol%20Surge%20%28x%29%2CScan%20Time%20%28IST%29%0ANAVA%2C703.1%2C626.5%2C12.23%2C25538118%2C370165%2C68.99%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AMMTC%2C68.32%2C61.91%2C10.35%2C97316625%2C3275632%2C29.71%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AANGELONE%2C322.47%2C292.61%2C10.2%2C80862076%2C12909552%2C6.26%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AIRCON%2C154.69%2C142.37%2C8.65%2C41378437%2C4816802%2C8.59%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AGUJGASLTD%2C362.8%2C335.5%2C8.14%2C6733478%2C1207475%2C5.58%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AGSPL%2C272.41%2C252.29%2C7.97%2C31562654%2C1034659%2C30.51%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ATRITURBINE%2C515.45%2C477.8%2C7.88%2C6236175%2C852896%2C7.31%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ACOHANCE%2C390.55%2C362.95%2C7.6%2C13513749%2C6531241%2C2.07%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AAEGISLOG%2C709.3%2C659.55%2C7.54%2C6929914%2C1403655%2C4.94%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AJINDALSAW%2C236.28%2C221.42%2C6.71%2C8538793%2C2988631%2C2.86%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ACOLPAL%2C2106.0%2C1977.4%2C6.5%2C2100594%2C394810%2C5.32%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AEMAMILTD%2C452.1%2C425.5%2C6.25%2C1402971%2C549204%2C2.55%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ACHENNPETRO%2C1041.85%2C980.8%2C6.22%2C3701490%2C2068804%2C1.79%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AZENTEC%2C1616.5%2C1524.3%2C6.05%2C1248604%2C669940%2C1.86%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ACARBORUNIV%2C940.1%2C886.7%2C6.02%2C870307%2C295223%2C2.95%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AACMESOLAR%2C304.65%2C287.45%2C5.98%2C3736873%2C2346113%2C1.59%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AATGL%2C632.9%2C597.6%2C5.91%2C8865094%2C4201513%2C2.11%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AENGINERSIN%2C241.8%2C228.32%2C5.9%2C24940097%2C4996789%2C4.99%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ASCI%2C305.87%2C288.93%2C5.86%2C99821690%2C7649926%2C13.05%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AMINDACORP%2C532.8%2C505.65%2C5.37%2C837000%2C443943%2C1.89%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ASUZLON%2C52.93%2C50.25%2C5.33%2C337136379%2C98440470%2C3.42%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ANAM-INDIA%2C1015.05%2C964.85%2C5.2%2C2326809%2C1479214%2C1.57%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AECLERX%2C1631.1%2C1551.3%2C5.14%2C613571%2C325190%2C1.89%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ACRISIL%2C4335.4%2C4126.3%2C5.07%2C444364%2C87123%2C5.1%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ARADICO%2C3186.9%2C3036.4%2C4.96%2C1189035%2C448552%2C2.65%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AAPLLTD%2C784.75%2C748.3%2C4.87%2C237737%2C76863%2C3.09%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AWHIRLPOOL%2C889.8%2C848.65%2C4.85%2C622745%2C216880%2C2.87%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AHINDUNILVR%2C2240.8%2C2139.1%2C4.75%2C4882390%2C2166979%2C2.25%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AMRPL%2C183.13%2C174.93%2C4.69%2C10905084%2C6038794%2C1.81%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0APIDILITIND%2C1393.4%2C1331.0%2C4.69%2C1740418%2C1123910%2C1.55%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ASUMICHEM%2C442.4%2C423.4%2C4.49%2C292914%2C158880%2C1.84%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ATTML%2C45.68%2C43.77%2C4.36%2C19930303%2C11942486%2C1.67%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ALLOYDSME%2C1623.3%2C1556.7%2C4.28%2C1555726%2C722116%2C2.15%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ACONCORDBIO%2C1081.7%2C1037.4%2C4.27%2C777143%2C311741%2C2.49%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AMOTILALOFS%2C815.45%2C782.8%2C4.17%2C2052071%2C1217613%2C1.69%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AENRIN%2C3019.6%2C2901.3%2C4.08%2C505640%2C334814%2C1.51%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ASIEMENS%2C3707.9%2C3563.8%2C4.04%2C1033982%2C588852%2C1.76%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AGODFRYPHLP%2C2207.7%2C2124.9%2C3.9%2C3520868%2C879150%2C4.0%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AUNITDSPR%2C1302.9%2C1254.5%2C3.86%2C2825651%2C1463284%2C1.93%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AKPRMILL%2C927.7%2C893.85%2C3.79%2C732526%2C320681%2C2.28%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AMAPMYINDIA%2C955.85%2C921.95%2C3.68%2C305364%2C133440%2C2.29%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ADABUR%2C442.85%2C427.55%2C3.58%2C4982629%2C2157458%2C2.31%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AGLAND%2C1797.4%2C1735.6%2C3.56%2C142797%2C88507%2C1.61%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AFACT%2C902.75%2C871.9%2C3.54%2C4207688%2C785837%2C5.35%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0APOLYCAB%2C8182.5%2C7903.5%2C3.53%2C683228%2C438431%2C1.56%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0A360ONE%2C1113.3%2C1076.45%2C3.42%2C2641396%2C1508698%2C1.75%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AJINDALSTEL%2C1270.0%2C1228.3%2C3.39%2C2860317%2C1813530%2C1.58%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0APNBHOUSING%2C923.7%2C893.8%2C3.35%2C2129392%2C995291%2C2.14%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0APOLICYBZR%2C1600.6%2C1550.5%2C3.23%2C3749034%2C1490711%2C2.51%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0APREMIERENE%2C1034.6%2C1003.1%2C3.14%2C7485073%2C2239317%2C3.34%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ARVNL%2C303.06%2C293.89%2C3.12%2C38670799%2C8571095%2C4.51%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AADANIENSOL%2C1259.8%2C1222.6%2C3.04%2C4942105%2C3045132%2C1.62%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AREDINGTON%2C234.67%2C227.78%2C3.02%2C11892853%2C5345070%2C2.23%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ASJVN%2C78.62%2C76.33%2C3.0%2C9789337%2C5899269%2C1.66%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AFINCABLES%2C940.55%2C913.55%2C2.96%2C681165%2C419095%2C1.63%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AVBL%2C473.9%2C460.4%2C2.93%2C11966000%2C5633516%2C2.12%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ANTPCGREEN%2C111.96%2C108.79%2C2.91%2C33230363%2C18243743%2C1.82%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ATORNTPOWER%2C1565.0%2C1521.6%2C2.85%2C961325%2C535103%2C1.8%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ABIKAJI%2C660.05%2C641.8%2C2.84%2C227250%2C109024%2C2.08%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AKSB%2C968.2%2C941.95%2C2.79%2C778314%2C390914%2C1.99%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AIREDA%2C133.01%2C129.43%2C2.77%2C17120741%2C10164320%2C1.68%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ANETWEB%2C3809.0%2C3708.4%2C2.71%2C1853126%2C1230153%2C1.51%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0APAGEIND%2C37975.0%2C36980.0%2C2.69%2C65198%2C34695%2C1.88%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ANHPC%2C83.56%2C81.38%2C2.68%2C50023906%2C15731217%2C3.18%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AINOXWIND%2C97.9%2C95.4%2C2.62%2C47572301%2C16395779%2C2.9%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ARECLTD%2C373.3%2C364.2%2C2.5%2C14945709%2C8495642%2C1.76%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ACGPOWER%2C774.8%2C755.9%2C2.5%2C4135259%2C2646900%2C1.56%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ARCF%2C131.77%2C128.71%2C2.38%2C4759398%2C2810500%2C1.69%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AUBL%2C1493.6%2C1459.2%2C2.36%2C344259%2C184294%2C1.87%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AKFINTECH%2C976.0%2C955.9%2C2.1%2C2069532%2C1159631%2C1.78%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ANIVABUPA%2C80.11%2C78.5%2C2.05%2C1143278%2C653906%2C1.75%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AJKTYRE%2C428.4%2C419.95%2C2.01%2C2567078%2C1303564%2C1.97%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AIGL%2C169.27%2C166.05%2C1.94%2C8476667%2C3998690%2C2.12%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AAPARINDS%2C11482.0%2C11266.5%2C1.91%2C204208%2C128132%2C1.59%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ABEML%2C1772.4%2C1740.0%2C1.86%2C661351%2C338891%2C1.95%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AHUDCO%2C196.91%2C193.67%2C1.67%2C6501498%2C4011032%2C1.62%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AASTRAL%2C1605.0%2C1578.7%2C1.67%2C1631244%2C1034024%2C1.58%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AAWL%2C185.01%2C182.09%2C1.6%2C5809151%2C3084475%2C1.88%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ACAMS%2C750.15%2C738.4%2C1.59%2C2270228%2C1276376%2C1.78%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AIRFC%2C104.84%2C103.24%2C1.55%2C32757379%2C18896754%2C1.73%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AAFFLE%2C1468.2%2C1446.8%2C1.48%2C580398%2C274291%2C2.12%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ARRKABEL%2C1475.6%2C1455.0%2C1.42%2C513935%2C176819%2C2.91%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AGODREJAGRO%2C615.75%2C607.7%2C1.32%2C186504%2C104687%2C1.78%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ASUPREMEIND%2C3709.0%2C3663.8%2C1.23%2C1176984%2C306111%2C3.84%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AVMM%2C118.95%2C117.55%2C1.19%2C30756521%2C15621166%2C1.97%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AITC%2C306.8%2C303.4%2C1.12%2C35106870%2C19117920%2C1.84%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AJIOFIN%2C243.86%2C241.27%2C1.07%2C51439276%2C18508488%2C2.78%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AHEG%2C633.0%2C626.85%2C0.98%2C3715158%2C2338473%2C1.59%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ARAMCOCEM%2C1011.05%2C1001.9%2C0.91%2C539467%2C170515%2C3.16%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0APIIND%2C3139.7%2C3112.2%2C0.88%2C467006%2C299595%2C1.56%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AWAAREEENER%2C3466.2%2C3438.8%2C0.8%2C3721431%2C1768444%2C2.1%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AICICIPRULI%2C562.0%2C557.95%2C0.73%2C3333588%2C2095563%2C1.59%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ADELHIVERY%2C463.0%2C459.75%2C0.71%2C4967396%2C3144990%2C1.58%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AKAJARIACER%2C1178.35%2C1170.2%2C0.7%2C679167%2C414357%2C1.64%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ACESC%2C171.49%2C170.48%2C0.59%2C4017728%2C2239272%2C1.79%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ANCC%2C161.26%2C160.36%2C0.56%2C4673693%2C2776933%2C1.68%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ANUVOCO%2C311.4%2C310.3%2C0.35%2C813747%2C517266%2C1.57%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ADEEPAKNTR%2C1538.1%2C1533.7%2C0.29%2C385730%2C185135%2C2.08%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0ARKFORGE%2C535.15%2C534.25%2C0.17%2C489689%2C283243%2C1.73%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0AASAHIINDIA%2C851.25%2C849.9%2C0.16%2C267905%2C163337%2C1.64%2C17-Apr-2026%20%2004%3A44%20PM%20IST%0A" download="Volume_Gainers_2026-04-17_16-44.csv" class="btn-download">⬇ CSV</a>
+  </div>
+
+  <div class="scroll-area">
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Current Price (₹)</th>
+          <th>Change %</th>
+          <th>Volume (M)</th>
+          <th>10D SMA Vol (M)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#ffffff"><td>NAVA</td><td>₹ 703.10</td><td><span class="badge" style="background:#1a7a3c">+12.23%</span></td><td>25.54</td><td>0.37</td></tr>
+<tr style="background:#f7f9f8"><td>MMTC</td><td>₹ 68.32</td><td><span class="badge" style="background:#1a7a3c">+10.35%</span></td><td>97.32</td><td>3.28</td></tr>
+<tr style="background:#ffffff"><td>ANGELONE</td><td>₹ 322.47</td><td><span class="badge" style="background:#1a7a3c">+10.20%</span></td><td>80.86</td><td>12.91</td></tr>
+<tr style="background:#f7f9f8"><td>IRCON</td><td>₹ 154.69</td><td><span class="badge" style="background:#1a7a3c">+8.65%</span></td><td>41.38</td><td>4.82</td></tr>
+<tr style="background:#ffffff"><td>GUJGASLTD</td><td>₹ 362.80</td><td><span class="badge" style="background:#1a7a3c">+8.14%</span></td><td>6.73</td><td>1.21</td></tr>
+<tr style="background:#f7f9f8"><td>GSPL</td><td>₹ 272.41</td><td><span class="badge" style="background:#1a7a3c">+7.97%</span></td><td>31.56</td><td>1.03</td></tr>
+<tr style="background:#ffffff"><td>TRITURBINE</td><td>₹ 515.45</td><td><span class="badge" style="background:#1a7a3c">+7.88%</span></td><td>6.24</td><td>0.85</td></tr>
+<tr style="background:#f7f9f8"><td>COHANCE</td><td>₹ 390.55</td><td><span class="badge" style="background:#1a7a3c">+7.60%</span></td><td>13.51</td><td>6.53</td></tr>
+<tr style="background:#ffffff"><td>AEGISLOG</td><td>₹ 709.30</td><td><span class="badge" style="background:#1a7a3c">+7.54%</span></td><td>6.93</td><td>1.40</td></tr>
+<tr style="background:#f7f9f8"><td>JINDALSAW</td><td>₹ 236.28</td><td><span class="badge" style="background:#1a7a3c">+6.71%</span></td><td>8.54</td><td>2.99</td></tr>
+<tr style="background:#ffffff"><td>COLPAL</td><td>₹ 2,106.00</td><td><span class="badge" style="background:#1a7a3c">+6.50%</span></td><td>2.10</td><td>0.39</td></tr>
+<tr style="background:#f7f9f8"><td>EMAMILTD</td><td>₹ 452.10</td><td><span class="badge" style="background:#1a7a3c">+6.25%</span></td><td>1.40</td><td>0.55</td></tr>
+<tr style="background:#ffffff"><td>CHENNPETRO</td><td>₹ 1,041.85</td><td><span class="badge" style="background:#1a7a3c">+6.22%</span></td><td>3.70</td><td>2.07</td></tr>
+<tr style="background:#f7f9f8"><td>ZENTEC</td><td>₹ 1,616.50</td><td><span class="badge" style="background:#1a7a3c">+6.05%</span></td><td>1.25</td><td>0.67</td></tr>
+<tr style="background:#ffffff"><td>CARBORUNIV</td><td>₹ 940.10</td><td><span class="badge" style="background:#1a7a3c">+6.02%</span></td><td>0.87</td><td>0.30</td></tr>
+<tr style="background:#f7f9f8"><td>ACMESOLAR</td><td>₹ 304.65</td><td><span class="badge" style="background:#1a7a3c">+5.98%</span></td><td>3.74</td><td>2.35</td></tr>
+<tr style="background:#ffffff"><td>ATGL</td><td>₹ 632.90</td><td><span class="badge" style="background:#1a7a3c">+5.91%</span></td><td>8.87</td><td>4.20</td></tr>
+<tr style="background:#f7f9f8"><td>ENGINERSIN</td><td>₹ 241.80</td><td><span class="badge" style="background:#1a7a3c">+5.90%</span></td><td>24.94</td><td>5.00</td></tr>
+<tr style="background:#ffffff"><td>SCI</td><td>₹ 305.87</td><td><span class="badge" style="background:#1a7a3c">+5.86%</span></td><td>99.82</td><td>7.65</td></tr>
+<tr style="background:#f7f9f8"><td>MINDACORP</td><td>₹ 532.80</td><td><span class="badge" style="background:#1a7a3c">+5.37%</span></td><td>0.84</td><td>0.44</td></tr>
+<tr style="background:#ffffff"><td>SUZLON</td><td>₹ 52.93</td><td><span class="badge" style="background:#1a7a3c">+5.33%</span></td><td>337.14</td><td>98.44</td></tr>
+<tr style="background:#f7f9f8"><td>NAM-INDIA</td><td>₹ 1,015.05</td><td><span class="badge" style="background:#1a7a3c">+5.20%</span></td><td>2.33</td><td>1.48</td></tr>
+<tr style="background:#ffffff"><td>ECLERX</td><td>₹ 1,631.10</td><td><span class="badge" style="background:#1a7a3c">+5.14%</span></td><td>0.61</td><td>0.33</td></tr>
+<tr style="background:#f7f9f8"><td>CRISIL</td><td>₹ 4,335.40</td><td><span class="badge" style="background:#1a7a3c">+5.07%</span></td><td>0.44</td><td>0.09</td></tr>
+<tr style="background:#ffffff"><td>RADICO</td><td>₹ 3,186.90</td><td><span class="badge" style="background:#27ae60">+4.96%</span></td><td>1.19</td><td>0.45</td></tr>
+<tr style="background:#f7f9f8"><td>APLLTD</td><td>₹ 784.75</td><td><span class="badge" style="background:#27ae60">+4.87%</span></td><td>0.24</td><td>0.08</td></tr>
+<tr style="background:#ffffff"><td>WHIRLPOOL</td><td>₹ 889.80</td><td><span class="badge" style="background:#27ae60">+4.85%</span></td><td>0.62</td><td>0.22</td></tr>
+<tr style="background:#f7f9f8"><td>HINDUNILVR</td><td>₹ 2,240.80</td><td><span class="badge" style="background:#27ae60">+4.75%</span></td><td>4.88</td><td>2.17</td></tr>
+<tr style="background:#ffffff"><td>MRPL</td><td>₹ 183.13</td><td><span class="badge" style="background:#27ae60">+4.69%</span></td><td>10.91</td><td>6.04</td></tr>
+<tr style="background:#f7f9f8"><td>PIDILITIND</td><td>₹ 1,393.40</td><td><span class="badge" style="background:#27ae60">+4.69%</span></td><td>1.74</td><td>1.12</td></tr>
+<tr style="background:#ffffff"><td>SUMICHEM</td><td>₹ 442.40</td><td><span class="badge" style="background:#27ae60">+4.49%</span></td><td>0.29</td><td>0.16</td></tr>
+<tr style="background:#f7f9f8"><td>TTML</td><td>₹ 45.68</td><td><span class="badge" style="background:#27ae60">+4.36%</span></td><td>19.93</td><td>11.94</td></tr>
+<tr style="background:#ffffff"><td>LLOYDSME</td><td>₹ 1,623.30</td><td><span class="badge" style="background:#27ae60">+4.28%</span></td><td>1.56</td><td>0.72</td></tr>
+<tr style="background:#f7f9f8"><td>CONCORDBIO</td><td>₹ 1,081.70</td><td><span class="badge" style="background:#27ae60">+4.27%</span></td><td>0.78</td><td>0.31</td></tr>
+<tr style="background:#ffffff"><td>MOTILALOFS</td><td>₹ 815.45</td><td><span class="badge" style="background:#27ae60">+4.17%</span></td><td>2.05</td><td>1.22</td></tr>
+<tr style="background:#f7f9f8"><td>ENRIN</td><td>₹ 3,019.60</td><td><span class="badge" style="background:#27ae60">+4.08%</span></td><td>0.51</td><td>0.33</td></tr>
+<tr style="background:#ffffff"><td>SIEMENS</td><td>₹ 3,707.90</td><td><span class="badge" style="background:#27ae60">+4.04%</span></td><td>1.03</td><td>0.59</td></tr>
+<tr style="background:#f7f9f8"><td>GODFRYPHLP</td><td>₹ 2,207.70</td><td><span class="badge" style="background:#27ae60">+3.90%</span></td><td>3.52</td><td>0.88</td></tr>
+<tr style="background:#ffffff"><td>UNITDSPR</td><td>₹ 1,302.90</td><td><span class="badge" style="background:#27ae60">+3.86%</span></td><td>2.83</td><td>1.46</td></tr>
+<tr style="background:#f7f9f8"><td>KPRMILL</td><td>₹ 927.70</td><td><span class="badge" style="background:#27ae60">+3.79%</span></td><td>0.73</td><td>0.32</td></tr>
+<tr style="background:#ffffff"><td>MAPMYINDIA</td><td>₹ 955.85</td><td><span class="badge" style="background:#27ae60">+3.68%</span></td><td>0.31</td><td>0.13</td></tr>
+<tr style="background:#f7f9f8"><td>DABUR</td><td>₹ 442.85</td><td><span class="badge" style="background:#27ae60">+3.58%</span></td><td>4.98</td><td>2.16</td></tr>
+<tr style="background:#ffffff"><td>GLAND</td><td>₹ 1,797.40</td><td><span class="badge" style="background:#27ae60">+3.56%</span></td><td>0.14</td><td>0.09</td></tr>
+<tr style="background:#f7f9f8"><td>FACT</td><td>₹ 902.75</td><td><span class="badge" style="background:#27ae60">+3.54%</span></td><td>4.21</td><td>0.79</td></tr>
+<tr style="background:#ffffff"><td>POLYCAB</td><td>₹ 8,182.50</td><td><span class="badge" style="background:#27ae60">+3.53%</span></td><td>0.68</td><td>0.44</td></tr>
+<tr style="background:#f7f9f8"><td>360ONE</td><td>₹ 1,113.30</td><td><span class="badge" style="background:#27ae60">+3.42%</span></td><td>2.64</td><td>1.51</td></tr>
+<tr style="background:#ffffff"><td>JINDALSTEL</td><td>₹ 1,270.00</td><td><span class="badge" style="background:#27ae60">+3.39%</span></td><td>2.86</td><td>1.81</td></tr>
+<tr style="background:#f7f9f8"><td>PNBHOUSING</td><td>₹ 923.70</td><td><span class="badge" style="background:#27ae60">+3.35%</span></td><td>2.13</td><td>1.00</td></tr>
+<tr style="background:#ffffff"><td>POLICYBZR</td><td>₹ 1,600.60</td><td><span class="badge" style="background:#27ae60">+3.23%</span></td><td>3.75</td><td>1.49</td></tr>
+<tr style="background:#f7f9f8"><td>PREMIERENE</td><td>₹ 1,034.60</td><td><span class="badge" style="background:#27ae60">+3.14%</span></td><td>7.49</td><td>2.24</td></tr>
+<tr style="background:#ffffff"><td>RVNL</td><td>₹ 303.06</td><td><span class="badge" style="background:#27ae60">+3.12%</span></td><td>38.67</td><td>8.57</td></tr>
+<tr style="background:#f7f9f8"><td>ADANIENSOL</td><td>₹ 1,259.80</td><td><span class="badge" style="background:#27ae60">+3.04%</span></td><td>4.94</td><td>3.05</td></tr>
+<tr style="background:#ffffff"><td>REDINGTON</td><td>₹ 234.67</td><td><span class="badge" style="background:#27ae60">+3.02%</span></td><td>11.89</td><td>5.35</td></tr>
+<tr style="background:#f7f9f8"><td>SJVN</td><td>₹ 78.62</td><td><span class="badge" style="background:#27ae60">+3.00%</span></td><td>9.79</td><td>5.90</td></tr>
+<tr style="background:#ffffff"><td>FINCABLES</td><td>₹ 940.55</td><td><span class="badge" style="background:#82c99f">+2.96%</span></td><td>0.68</td><td>0.42</td></tr>
+<tr style="background:#f7f9f8"><td>VBL</td><td>₹ 473.90</td><td><span class="badge" style="background:#82c99f">+2.93%</span></td><td>11.97</td><td>5.63</td></tr>
+<tr style="background:#ffffff"><td>NTPCGREEN</td><td>₹ 111.96</td><td><span class="badge" style="background:#82c99f">+2.91%</span></td><td>33.23</td><td>18.24</td></tr>
+<tr style="background:#f7f9f8"><td>TORNTPOWER</td><td>₹ 1,565.00</td><td><span class="badge" style="background:#82c99f">+2.85%</span></td><td>0.96</td><td>0.54</td></tr>
+<tr style="background:#ffffff"><td>BIKAJI</td><td>₹ 660.05</td><td><span class="badge" style="background:#82c99f">+2.84%</span></td><td>0.23</td><td>0.11</td></tr>
+<tr style="background:#f7f9f8"><td>KSB</td><td>₹ 968.20</td><td><span class="badge" style="background:#82c99f">+2.79%</span></td><td>0.78</td><td>0.39</td></tr>
+<tr style="background:#ffffff"><td>IREDA</td><td>₹ 133.01</td><td><span class="badge" style="background:#82c99f">+2.77%</span></td><td>17.12</td><td>10.16</td></tr>
+<tr style="background:#f7f9f8"><td>NETWEB</td><td>₹ 3,809.00</td><td><span class="badge" style="background:#82c99f">+2.71%</span></td><td>1.85</td><td>1.23</td></tr>
+<tr style="background:#ffffff"><td>PAGEIND</td><td>₹ 37,975.00</td><td><span class="badge" style="background:#82c99f">+2.69%</span></td><td>0.07</td><td>0.03</td></tr>
+<tr style="background:#f7f9f8"><td>NHPC</td><td>₹ 83.56</td><td><span class="badge" style="background:#82c99f">+2.68%</span></td><td>50.02</td><td>15.73</td></tr>
+<tr style="background:#ffffff"><td>INOXWIND</td><td>₹ 97.90</td><td><span class="badge" style="background:#82c99f">+2.62%</span></td><td>47.57</td><td>16.40</td></tr>
+<tr style="background:#f7f9f8"><td>RECLTD</td><td>₹ 373.30</td><td><span class="badge" style="background:#82c99f">+2.50%</span></td><td>14.95</td><td>8.50</td></tr>
+<tr style="background:#ffffff"><td>CGPOWER</td><td>₹ 774.80</td><td><span class="badge" style="background:#82c99f">+2.50%</span></td><td>4.14</td><td>2.65</td></tr>
+<tr style="background:#f7f9f8"><td>RCF</td><td>₹ 131.77</td><td><span class="badge" style="background:#82c99f">+2.38%</span></td><td>4.76</td><td>2.81</td></tr>
+<tr style="background:#ffffff"><td>UBL</td><td>₹ 1,493.60</td><td><span class="badge" style="background:#82c99f">+2.36%</span></td><td>0.34</td><td>0.18</td></tr>
+<tr style="background:#f7f9f8"><td>KFINTECH</td><td>₹ 976.00</td><td><span class="badge" style="background:#82c99f">+2.10%</span></td><td>2.07</td><td>1.16</td></tr>
+<tr style="background:#ffffff"><td>NIVABUPA</td><td>₹ 80.11</td><td><span class="badge" style="background:#82c99f">+2.05%</span></td><td>1.14</td><td>0.65</td></tr>
+<tr style="background:#f7f9f8"><td>JKTYRE</td><td>₹ 428.40</td><td><span class="badge" style="background:#82c99f">+2.01%</span></td><td>2.57</td><td>1.30</td></tr>
+<tr style="background:#ffffff"><td>IGL</td><td>₹ 169.27</td><td><span class="badge" style="background:#82c99f">+1.94%</span></td><td>8.48</td><td>4.00</td></tr>
+<tr style="background:#f7f9f8"><td>APARINDS</td><td>₹ 11,482.00</td><td><span class="badge" style="background:#82c99f">+1.91%</span></td><td>0.20</td><td>0.13</td></tr>
+<tr style="background:#ffffff"><td>BEML</td><td>₹ 1,772.40</td><td><span class="badge" style="background:#82c99f">+1.86%</span></td><td>0.66</td><td>0.34</td></tr>
+<tr style="background:#f7f9f8"><td>HUDCO</td><td>₹ 196.91</td><td><span class="badge" style="background:#82c99f">+1.67%</span></td><td>6.50</td><td>4.01</td></tr>
+<tr style="background:#ffffff"><td>ASTRAL</td><td>₹ 1,605.00</td><td><span class="badge" style="background:#82c99f">+1.67%</span></td><td>1.63</td><td>1.03</td></tr>
+<tr style="background:#f7f9f8"><td>AWL</td><td>₹ 185.01</td><td><span class="badge" style="background:#82c99f">+1.60%</span></td><td>5.81</td><td>3.08</td></tr>
+<tr style="background:#ffffff"><td>CAMS</td><td>₹ 750.15</td><td><span class="badge" style="background:#82c99f">+1.59%</span></td><td>2.27</td><td>1.28</td></tr>
+<tr style="background:#f7f9f8"><td>IRFC</td><td>₹ 104.84</td><td><span class="badge" style="background:#82c99f">+1.55%</span></td><td>32.76</td><td>18.90</td></tr>
+<tr style="background:#ffffff"><td>AFFLE</td><td>₹ 1,468.20</td><td><span class="badge" style="background:#82c99f">+1.48%</span></td><td>0.58</td><td>0.27</td></tr>
+<tr style="background:#f7f9f8"><td>RRKABEL</td><td>₹ 1,475.60</td><td><span class="badge" style="background:#82c99f">+1.42%</span></td><td>0.51</td><td>0.18</td></tr>
+<tr style="background:#ffffff"><td>GODREJAGRO</td><td>₹ 615.75</td><td><span class="badge" style="background:#82c99f">+1.32%</span></td><td>0.19</td><td>0.10</td></tr>
+<tr style="background:#f7f9f8"><td>SUPREMEIND</td><td>₹ 3,709.00</td><td><span class="badge" style="background:#82c99f">+1.23%</span></td><td>1.18</td><td>0.31</td></tr>
+<tr style="background:#ffffff"><td>VMM</td><td>₹ 118.95</td><td><span class="badge" style="background:#82c99f">+1.19%</span></td><td>30.76</td><td>15.62</td></tr>
+<tr style="background:#f7f9f8"><td>ITC</td><td>₹ 306.80</td><td><span class="badge" style="background:#82c99f">+1.12%</span></td><td>35.11</td><td>19.12</td></tr>
+<tr style="background:#ffffff"><td>JIOFIN</td><td>₹ 243.86</td><td><span class="badge" style="background:#82c99f">+1.07%</span></td><td>51.44</td><td>18.51</td></tr>
+<tr style="background:#f7f9f8"><td>HEG</td><td>₹ 633.00</td><td><span class="badge" style="background:#c8ecd5">+0.98%</span></td><td>3.72</td><td>2.34</td></tr>
+<tr style="background:#ffffff"><td>RAMCOCEM</td><td>₹ 1,011.05</td><td><span class="badge" style="background:#c8ecd5">+0.91%</span></td><td>0.54</td><td>0.17</td></tr>
+<tr style="background:#f7f9f8"><td>PIIND</td><td>₹ 3,139.70</td><td><span class="badge" style="background:#c8ecd5">+0.88%</span></td><td>0.47</td><td>0.30</td></tr>
+<tr style="background:#ffffff"><td>WAAREEENER</td><td>₹ 3,466.20</td><td><span class="badge" style="background:#c8ecd5">+0.80%</span></td><td>3.72</td><td>1.77</td></tr>
+<tr style="background:#f7f9f8"><td>ICICIPRULI</td><td>₹ 562.00</td><td><span class="badge" style="background:#c8ecd5">+0.73%</span></td><td>3.33</td><td>2.10</td></tr>
+<tr style="background:#ffffff"><td>DELHIVERY</td><td>₹ 463.00</td><td><span class="badge" style="background:#c8ecd5">+0.71%</span></td><td>4.97</td><td>3.14</td></tr>
+<tr style="background:#f7f9f8"><td>KAJARIACER</td><td>₹ 1,178.35</td><td><span class="badge" style="background:#c8ecd5">+0.70%</span></td><td>0.68</td><td>0.41</td></tr>
+<tr style="background:#ffffff"><td>CESC</td><td>₹ 171.49</td><td><span class="badge" style="background:#c8ecd5">+0.59%</span></td><td>4.02</td><td>2.24</td></tr>
+<tr style="background:#f7f9f8"><td>NCC</td><td>₹ 161.26</td><td><span class="badge" style="background:#c8ecd5">+0.56%</span></td><td>4.67</td><td>2.78</td></tr>
+<tr style="background:#ffffff"><td>NUVOCO</td><td>₹ 311.40</td><td><span class="badge" style="background:#c8ecd5">+0.35%</span></td><td>0.81</td><td>0.52</td></tr>
+<tr style="background:#f7f9f8"><td>DEEPAKNTR</td><td>₹ 1,538.10</td><td><span class="badge" style="background:#c8ecd5">+0.29%</span></td><td>0.39</td><td>0.19</td></tr>
+<tr style="background:#ffffff"><td>RKFORGE</td><td>₹ 535.15</td><td><span class="badge" style="background:#c8ecd5">+0.17%</span></td><td>0.49</td><td>0.28</td></tr>
+<tr style="background:#f7f9f8"><td>ASAHIINDIA</td><td>₹ 851.25</td><td><span class="badge" style="background:#c8ecd5">+0.16%</span></td><td>0.27</td><td>0.16</td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
