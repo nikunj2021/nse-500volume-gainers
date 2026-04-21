@@ -6,7 +6,7 @@ on:
   # 9:30 AM IST  → 04:00 UTC   |   3:15 PM IST → 09:45 UTC
   # Runs every 15 min from 04:00 to 09:45 UTC, Mon–Fri
   schedule:
-    - cron: "0,15,30,45 4-9 * * 1-5"
+    - cron: "3,18,33,48 4-9 * * 1-5"
 
   # ── Allow a manual run from GitHub UI ────────────────────────────────────
   workflow_dispatch:
