@@ -3,6 +3,7 @@ import yfinance as yf
 import os
 from datetime import datetime
 import pytz
+import requests
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -74,13 +75,49 @@ for ticker in tickers:
     except Exception:
         continue
 
-# ── Save CSV ─────────────────────────────────────────────────────────────────
+# ── Save CSV & Send Telegram Alert ───────────────────────────────────────────
 if results:
     final_df = pd.DataFrame(results)
     final_df = final_df.sort_values("Gain %", ascending=False).reset_index(drop=True)
     final_df.to_csv(output_csv, index=False)
     print(f"  ✓ {len(final_df)} stocks found. Saved to {output_csv}")
+
+    # --- TELEGRAM HTML ALERT ---
+    BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+    CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
+
+    if BOT_TOKEN and CHAT_ID:
+        # Build Telegram HTML Message
+        msg = f"<b>📈 NSE Volume Gainers</b>\n<i>{display_time}</i>\n\n"
+        
+        # Limit to Top 20 so we don't exceed Telegram's message character limit
+        for idx, row in final_df.head(20).iterrows():
+            # Format numbers clearly (e.g. 1500000 -> 1.5M)
+            vol_str = f"{row['Volume']/1000000:.1f}M" if row['Volume'] > 1000000 else f"{row['Volume']/1000:.1f}K"
+            avg_str = f"{row['10 Days Avg Volume']/1000000:.1f}M" if row['10 Days Avg Volume'] > 1000000 else f"{row['10 Days Avg Volume']/1000:.1f}K"
+            
+            msg += f"🟢 <b>{row['Ticker Name']}</b> : ₹{row['Current Price']} (<b>+{row['Gain %']}%</b>)\n"
+            msg += f"      └ Vol: {vol_str} <i>(Avg: {avg_str})</i>\n\n"
+
+        if len(final_df) > 20:
+            msg += f"<i>... and {len(final_df) - 20} more. Check GitHub!</i>"
+
+        url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+        payload = {
+            "chat_id": CHAT_ID,
+            "text": msg,
+            "parse_mode": "HTML",
+            "disable_web_page_preview": True
+        }
+        
+        try:
+            resp = requests.post(url, json=payload)
+            resp.raise_for_status()
+            print("  ✓ Telegram alert sent successfully.")
+        except Exception as e:
+            print(f"  ❌ Failed to send Telegram alert: {e}")
+    else:
+        print("  ⚠️ Telegram credentials missing. Skipping alert.")
 else:
     print("  No stocks met the criteria. Saving empty state.")
-    # Saves a message so the frontend knows there's no data, rather than throwing a formatting error
     pd.DataFrame([{"Message": "No stocks met criteria at this time"}]).to_csv(output_csv, index=False)
