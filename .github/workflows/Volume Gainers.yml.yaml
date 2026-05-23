@@ -1,0 +1,79 @@
+name: NSE Volume Gainers — 15-min Scanner
+
+on:
+  # ── Scheduled trigger ─────────────────────────────────────────────────────
+  # IST = UTC + 5:30
+  # 9:30 AM IST  → 04:00 UTC   |   3:15 PM IST → 09:45 UTC
+  # Runs every 15 min from 04:00 to 09:45 UTC, Mon–Fri
+  schedule:
+    - cron: "0,15,30,45 4-9 * * 1-5"
+
+  # ── Allow a manual run from GitHub UI ────────────────────────────────────
+  workflow_dispatch:
+
+jobs:
+  scan:
+    name: Run Volume Scan & Deploy
+    runs-on: ubuntu-latest
+
+    # Give the job write access so it can push reports back
+    permissions:
+      contents: write
+
+    # ── Opt into Node.js 24 to silence Node 20 deprecation warnings ────────────
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      # ── 1. Checkout repo ───────────────────────────────────────────────────
+      - name: ⬇ Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history needed for clean push
+
+      # ── 2. Set up Python ───────────────────────────────────────────────────
+      - name: 🐍 Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # ── 3. Install dependencies ────────────────────────────────────────────
+      - name: 📦 Install dependencies
+        run: pip install yfinance pandas pytz requests
+
+      # ── 4. Market-hours gate ───────────────────────────────────────────────
+      - name: 🕐 Show current IST time
+        run: |
+          python - <<'EOF'
+          from datetime import datetime
+          import pytz
+          ist = pytz.timezone("Asia/Kolkata")
+          print("Current IST time:", datetime.now(ist).strftime("%Y-%m-%d %H:%M:%S %Z"))
+          EOF
+
+      # ── 5. Run the volume-gainers scanner ─────────────────────────────────
+      - name: 📈 Run Volume Gainers scan
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python volume_gainers.py
+
+      # ── 6. Commit & push results ──────────────────────────────────────────
+      - name: 💾 Commit & push results
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Only track the reports folder
+          git add reports/
+
+          # Only commit if there are actual changes
+          if git diff --staged --quiet; then
+            echo "Nothing changed — skipping commit."
+          else
+            # Condensed python script to avoid YAML multiline indentation issues
+            TIMESTAMP=$(python -c "from datetime import datetime; import pytz; print(datetime.now(pytz.timezone('Asia/Kolkata')).strftime('%d-%b-%Y %I:%M %p IST'))")
+            git commit -m "📊 Volume scan — $TIMESTAMP"
+            git push
+          fi
