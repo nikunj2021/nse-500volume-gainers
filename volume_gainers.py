@@ -87,35 +87,43 @@ if results:
     CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 
     if BOT_TOKEN and CHAT_ID:
-        # Build Telegram HTML Message
-        msg = f"<b>📈 NSE Volume Gainers</b>\n<i>{display_time}</i>\n\n"
+        messages = []
+        current_msg = f"<b>📈 NSE Volume Gainers</b>\n<i>{display_time}</i>\n\n"
         
-        # Limit to Top 20 so we don't exceed Telegram's message character limit
-        for idx, row in final_df.head(20).iterrows():
-            # Format numbers clearly (e.g. 1500000 -> 1.5M)
+        # Iterate through ALL rows, no limits
+        for idx, row in final_df.iterrows():
             vol_str = f"{row['Volume']/1000000:.1f}M" if row['Volume'] > 1000000 else f"{row['Volume']/1000:.1f}K"
             avg_str = f"{row['10 Days Avg Volume']/1000000:.1f}M" if row['10 Days Avg Volume'] > 1000000 else f"{row['10 Days Avg Volume']/1000:.1f}K"
             
-            msg += f"🟢 <b>{row['Ticker Name']}</b> : ₹{row['Current Price']} (<b>+{row['Gain %']}%</b>)\n"
-            msg += f"      └ Vol: {vol_str} <i>(Avg: {avg_str})</i>\n\n"
-
-        if len(final_df) > 20:
-            msg += f"<i>... and {len(final_df) - 20} more. Check GitHub!</i>"
+            row_text = f"🟢 <b>{row['Ticker Name']}</b> : ₹{row['Current Price']} (<b>+{row['Gain %']}%</b>)\n      └ Vol: {vol_str} <i>(Avg: {avg_str})</i>\n\n"
+            
+            # Telegram's character limit is 4096. We split at ~4000 to be safe.
+            if len(current_msg) + len(row_text) > 4000:
+                messages.append(current_msg)
+                current_msg = row_text # Start a new message chunk
+            else:
+                current_msg += row_text
+                
+        # Append the final chunk if it contains data
+        if current_msg:
+            messages.append(current_msg)
 
         url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-        payload = {
-            "chat_id": CHAT_ID,
-            "text": msg,
-            "parse_mode": "HTML",
-            "disable_web_page_preview": True
-        }
         
-        try:
-            resp = requests.post(url, json=payload)
-            resp.raise_for_status()
-            print("  ✓ Telegram alert sent successfully.")
-        except Exception as e:
-            print(f"  ❌ Failed to send Telegram alert: {e}")
+        # Send each message chunk sequentially
+        for i, m in enumerate(messages):
+            payload = {
+                "chat_id": CHAT_ID,
+                "text": m,
+                "parse_mode": "HTML",
+                "disable_web_page_preview": True
+            }
+            try:
+                resp = requests.post(url, json=payload)
+                resp.raise_for_status()
+                print(f"  ✓ Telegram alert part {i+1}/{len(messages)} sent successfully.")
+            except Exception as e:
+                print(f"  ❌ Failed to send Telegram alert part {i+1}: {e}")
     else:
         print("  ⚠️ Telegram credentials missing. Skipping alert.")
 else:
