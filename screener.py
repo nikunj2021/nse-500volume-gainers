@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 # ─────────────────────────────────────────────────────────────────────────────
 # CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
-TELEGRAM_TOKEN  = "8640209545:AAG-9hKgG-zxoLeMwFBRpRDfEk5hneIrVQ0"
+TELEGRAM_TOKEN  = "8985262215:AAEHd-HzD6qMeIMfmCi46_QZVAEOCUOxvys"
 TELEGRAM_CHATID = "653352464"
 GITHUB_USER     = "nikunj2021"
 GITHUB_REPO     = "nse-500volume-gainers"
