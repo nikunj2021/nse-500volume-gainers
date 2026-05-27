@@ -1,216 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Live NSE Volume Gainers</title>
-  <style>
-    :root {
-      --bg: #0d1117;
-      --card: #161b22;
-      --border: #30363d;
-      --accent: #58a6ff;
-      --green: #3fb950;
-      --red: #f85149;
-      --muted: #8b949e;
-      --text: #e6edf3;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      min-height: 100vh;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="refresh" content="900">
+<title>NSE Volume Gainer Screener</title>
+<style>
+:root{
+  --bg:#0d1117; --surface:#161b22; --border:#30363d;
+  --text:#e6edf3; --muted:#8b949e;
+  --blue:#58a6ff; --green:#3fb950; --red:#ff7b72; --orange:#f0a500;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
 
-    header {
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 24px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .title-group h1 { font-size: 1.4rem; font-weight: 700; }
-    .title-group p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
-    
-    .controls { display: flex; align-items: center; gap: 16px; }
-    .status-dot {
-      height: 10px; width: 10px; background-color: var(--green);
-      border-radius: 50%; display: inline-block;
-      box-shadow: 0 0 8px var(--green);
-    }
-    .status-text { font-size: 0.85rem; color: var(--muted); }
-    button.refresh-btn {
-      background: var(--border); color: var(--text);
-      border: none; padding: 8px 16px; border-radius: 6px;
-      cursor: pointer; font-weight: 600; font-size: 0.85rem;
-      transition: background 0.2s;
-    }
-    button.refresh-btn:hover { background: #444c56; }
+/* ── header ── */
+.header{
+  background:linear-gradient(135deg,#161b22,#1c2128);
+  padding:18px 28px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px
+}
+.header h1{font-size:1.45rem;font-weight:700;color:var(--blue)}
+.header h1 span{color:var(--green)}
+.badges{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{padding:4px 13px;border-radius:20px;font-size:.78rem;font-weight:600}
+.badge-open{background:#1a4731;color:var(--green);border:1px solid var(--green)}
+.badge-closed{background:#3d1a1a;color:var(--red);border:1px solid var(--red)}
+.badge-info{background:#1f3a5f;color:var(--blue);border:1px solid #388bfd}
 
-    main { padding: 32px; max-width: 1000px; margin: 0 auto; }
-    
-    .table-container {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow-x: auto;
-    }
-    table { width: 100%; border-collapse: collapse; text-align: right; }
-    th {
-      background: #1c2128; color: var(--muted);
-      font-size: 0.78rem; text-transform: uppercase; letter-spacing: .05em;
-      padding: 12px 16px; border-bottom: 1px solid var(--border);
-      font-weight: 600; white-space: nowrap;
-    }
-    th:first-child, td:first-child { text-align: left; }
-    td {
-      padding: 12px 16px; font-size: 0.9rem;
-      border-bottom: 1px solid var(--border);
-      font-variant-numeric: tabular-nums;
-    }
-    tr:hover td { background: #1c2128; }
-    tr:last-child td { border-bottom: none; }
+/* ── stat cards ── */
+.stats{display:flex;gap:14px;padding:18px 28px;flex-wrap:wrap}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;
+       padding:14px 22px;flex:1;min-width:140px;text-align:center}
+.card .v{font-size:1.7rem;font-weight:700;color:var(--blue)}
+.card .l{font-size:.72rem;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
 
-    .symbol { font-weight: 600; color: var(--accent); }
-    .badge {
-      display: inline-block; color: #fff; padding: 3px 9px;
-      border-radius: 4px; font-weight: 600; font-size: 0.82rem;
-      min-width: 62px; text-align: center;
-    }
-    
-    #loader { text-align: center; padding: 40px; color: var(--muted); }
-    .hidden { display: none; }
-  </style>
+/* ── controls ── */
+.controls{display:flex;gap:10px;padding:14px 28px;align-items:center;flex-wrap:wrap}
+.search{flex:1;min-width:200px;max-width:320px;padding:8px 13px;
+         background:#21262d;border:1px solid var(--border);border-radius:6px;
+         color:var(--text);font-size:.88rem;outline:none}
+.search:focus{border-color:#388bfd}
+.btn{padding:8px 20px;border:none;border-radius:6px;cursor:pointer;font-weight:600;
+      font-size:.88rem;transition:opacity .2s}
+.btn-refresh{background:#238636;color:#fff}
+.btn-refresh:hover{opacity:.85}
+.time{color:var(--muted);font-size:.78rem}
+
+/* ── table ── */
+.wrap{padding:0 28px 30px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+thead th{background:var(--surface);color:var(--muted);padding:9px 13px;
+          text-align:left;border-bottom:2px solid var(--border);
+          cursor:pointer;user-select:none;white-space:nowrap;
+          font-weight:600;font-size:.73rem;text-transform:uppercase;letter-spacing:.5px}
+thead th:hover{color:var(--blue)}
+tbody tr{border-bottom:1px solid #21262d;transition:background .12s}
+tbody tr:hover{background:var(--surface)}
+td{padding:9px 13px;white-space:nowrap}
+.sym{color:var(--blue);text-decoration:none;font-weight:700;font-size:.93rem}
+.sym:hover{color:#79c0ff;text-decoration:underline}
+.num{font-variant-numeric:tabular-nums}
+.empty{text-align:center;color:var(--muted);padding:40px;font-size:.95rem}
+
+/* ── footer ── */
+footer{text-align:center;padding:18px;color:var(--muted);font-size:.73rem;
+        border-top:1px solid #21262d}
+
+@media(max-width:600px){
+  .header,.stats,.controls,.wrap{padding-left:14px;padding-right:14px}
+  .card .v{font-size:1.3rem}
+}
+</style>
 </head>
 <body>
 
-<header>
-  <div class="title-group">
-    <h1>📈 NSE 500 — Volume Gainers</h1>
-    <p id="last-updated">Last fetched: --</p>
+<div class="header">
+  <h1>📊 NSE <span>Volume Gainer</span> Screener</h1>
+  <div class="badges">
+    <span class="badge badge-open">🟢 MARKET OPEN</span>
+    <span class="badge badge-info">🔍 411 Screened</span>
   </div>
-  <div class="controls">
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <span class="status-dot" id="live-indicator"></span>
-      <span class="status-text" id="status-label">Auto-refresh Active (5m)</span>
-    </div>
-    <button class="refresh-btn" onclick="fetchData()">Force Refresh</button>
-  </div>
-</header>
+</div>
 
-<main>
-  <div class="table-container">
-    <table id="data-table">
-      <thead>
+<div class="stats">
+  <div class="card"><div class="v">1</div><div class="l">Stocks Passing</div></div>
+  <div class="card"><div class="v">411</div><div class="l">Total Screened</div></div>
+  <div class="card"><div class="v">1.5x</div><div class="l">Min Vol Ratio</div></div>
+  <div class="card"><div class="v">5K Cr</div><div class="l">Min Mkt Cap</div></div>
+</div>
+
+<div class="controls">
+  <input class="search" id="srch" placeholder="🔍  Search symbol…" oninput="filter()">
+  <button class="btn btn-refresh" onclick="location.reload()">🔄 Refresh</button>
+  <span class="time">Last scan: 27 May 2026  09:15:03 AM IST &nbsp;|&nbsp; Auto-refresh: 15 min</span>
+</div>
+
+<div class="wrap">
+<table id="tbl">
+  <thead>
+    <tr>
+      <th onclick="sort(0)">Symbol ↕</th>
+      <th onclick="sort(1)">Price ↕</th>
+      <th onclick="sort(2)">% Chg ↕</th>
+      <th onclick="sort(3)">Cur Volume ↕</th>
+      <th onclick="sort(4)">10D Avg Vol ↕</th>
+      <th onclick="sort(5)">Vol Ratio ↕</th>
+      <th onclick="sort(6)">Mkt Cap ↕</th>
+    </tr>
+  </thead>
+  <tbody id="tb">
         <tr>
-          <th>Symbol</th>
-          <th>Current Price (₹)</th>
-          <th>Change %</th>
-          <th>Volume (M)</th>
-          <th>10D SMA Vol (M)</th>
-        </tr>
-      </thead>
-      <tbody id="table-body">
-      </tbody>
-    </table>
-    <div id="loader">Fetching latest market data...</div>
-  </div>
-</main>
+          <td><a href="https://www.tradingview.com/chart/?symbol=NSE:GRANULES" target="_blank" class="sym">GRANULES</a></td>
+          <td class="num">₹760.85</td>
+          <td class="num" style="color:#3fb950;font-weight:700">+0.58%</td>
+          <td class="num">3,010,321</td>
+          <td class="num">686,327</td>
+          <td class="num" style="color:#ff6d00;font-weight:800">4.39x</td>
+          <td class="num">₹18,853 Cr</td>
+        </tr></tbody>
+</table>
+</div>
+
+<footer>
+  Filters: Volume ≥ 1,00,000 &nbsp;|&nbsp; Vol Ratio ≥ 1.5x &nbsp;|&nbsp;
+  Mkt Cap &gt; ₹5,000 Cr &nbsp;|&nbsp; Data: Yahoo Finance &nbsp;|&nbsp;
+  github.com/nikunj2021/nse-500volume-gainers
+</footer>
 
 <script>
-  // Pointing precisely to the static file overwritten by your Python script
-  const CSV_URL = 'reports/Volume_Gainers_Latest.csv'; 
-  const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
-
-  const formatMillions = (numStr) => {
-    const num = parseFloat(numStr);
-    if (isNaN(num)) return '-';
-    return (num / 1000000).toFixed(2) + ' M';
-  };
-
-  const getGainColor = (pct) => {
-    if (pct >= 5) return "#1a7a3c";
-    if (pct >= 3) return "#27ae60";
-    if (pct >= 1) return "#82c99f";
-    if (pct > 0) return "#c8ecd5";
-    return "transparent";
-  };
-
-  const parseCSV = (str) => {
-    const lines = str.trim().split('\n');
-    if (lines.length === 0) return [];
-    const headers = lines[0].split(',').map(h => h.trim());
-    return lines.slice(1).map(line => {
-      const values = line.split(',');
-      let obj = {};
-      headers.forEach((header, i) => {
-        obj[header] = values[i] ? values[i].trim() : '';
-      });
-      return obj;
-    });
-  };
-
-  const fetchData = async () => {
-    const tbody = document.getElementById('table-body');
-    const loader = document.getElementById('loader');
-    const lastUpdated = document.getElementById('last-updated');
-
-    loader.classList.remove('hidden');
-    tbody.innerHTML = '';
-
-    try {
-      const response = await fetch(`${CSV_URL}?t=${new Date().getTime()}`);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      
-      const csvText = await response.text();
-      const data = parseCSV(csvText);
-
-      if (data.length > 0 && data[0].Message) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 20px; color: var(--muted);">${data[0].Message}</td></tr>`;
-      } else {
-        renderTable(data);
-      }
-
-      const now = new Date();
-      lastUpdated.innerText = `Last fetched: ${now.toLocaleTimeString()}`;
-
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--red);">Error loading data. Ensure the Python script has run and saved to 'reports/Volume_Gainers_Latest.csv'.</td></tr>`;
-    } finally {
-      loader.classList.add('hidden');
-    }
-  };
-
-  const renderTable = (data) => {
-    const tbody = document.getElementById('table-body');
-    
-    data.forEach(row => {
-      if (!row['Ticker Name']) return; 
-
-      const gain = parseFloat(row['Gain %']);
-      const gainColor = getGainColor(gain);
-      const gainPrefix = gain > 0 ? '+' : '';
-
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td class="symbol">${row['Ticker Name']}</td>
-        <td>₹ ${parseFloat(row['Current Price']).toFixed(2)}</td>
-        <td><span class="badge" style="background:${gainColor}; color: ${gain > 1 ? '#fff' : '#000'}">${gainPrefix}${gain.toFixed(2)}%</span></td>
-        <td>${formatMillions(row['Volume'])}</td>
-        <td>${formatMillions(row['10 Days Avg Volume'])}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-  };
-
-  fetchData();
-  setInterval(fetchData, REFRESH_INTERVAL_MS);
+const dir = {};
+function sort(c){
+  const tb=document.getElementById('tb');
+  const rows=[...tb.querySelectorAll('tr')];
+  dir[c]=!dir[c];
+  rows.sort((a,b)=>{
+    const av=a.cells[c]?.innerText||'', bv=b.cells[c]?.innerText||'';
+    const an=parseFloat(av.replace(/[^0-9.\-]/g,'')), bn=parseFloat(bv.replace(/[^0-9.\-]/g,''));
+    if(!isNaN(an)&&!isNaN(bn)) return dir[c]?an-bn:bn-an;
+    return dir[c]?av.localeCompare(bv):bv.localeCompare(av);
+  });
+  rows.forEach(r=>tb.appendChild(r));
+}
+function filter(){
+  const q=document.getElementById('srch').value.toLowerCase();
+  document.querySelectorAll('#tb tr').forEach(r=>{
+    r.style.display=r.innerText.toLowerCase().includes(q)?'':'none';
+  });
+}
 </script>
-
 </body>
 </html>
