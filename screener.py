@@ -33,6 +33,7 @@ log = logging.getLogger(__name__)
 # ─────────────────────────────────────────────────────────────────────────────
 TELEGRAM_TOKEN  = "8985262215:AAEHd-HzD6qMeIMfmCi46_QZVAEOCUOxvys"
 TELEGRAM_CHATID = "653352464"
+TELEGRAM_CHATID = "-1003864987520"
 GITHUB_USER     = "nikunj2021"
 GITHUB_REPO     = "nse-500volume-gainers"
 
