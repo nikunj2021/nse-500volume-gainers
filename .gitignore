@@ -1,0 +1,6 @@
+__pycache__/
+*.save
+*.save.*
+*.pyc
+*.log
+prev_results.json
