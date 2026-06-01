@@ -84,7 +84,7 @@ footer{text-align:center;padding:18px;color:var(--muted);font-size:.73rem;
 </div>
 
 <div class="stats">
-  <div class="card"><div class="v">0</div><div class="l">Stocks Passing</div></div>
+  <div class="card"><div class="v">3</div><div class="l">Stocks Passing</div></div>
   <div class="card"><div class="v">892</div><div class="l">Total Screened</div></div>
   <div class="card"><div class="v">1.5x</div><div class="l">Min Vol Ratio</div></div>
   <div class="card"><div class="v">5K Cr</div><div class="l">Min Mkt Cap</div></div>
@@ -93,7 +93,7 @@ footer{text-align:center;padding:18px;color:var(--muted);font-size:.73rem;
 <div class="controls">
   <input class="search" id="srch" placeholder="🔍  Search symbol…" oninput="filter()">
   <button class="btn btn-refresh" onclick="location.reload()">🔄 Refresh</button>
-  <span class="time">Last scan: 01 Jun 2026  09:15:03 AM IST &nbsp;|&nbsp; Auto-refresh: 15 min</span>
+  <span class="time">Last scan: 01 Jun 2026  09:30:02 AM IST &nbsp;|&nbsp; Auto-refresh: 15 min</span>
 </div>
 
 <div class="wrap">
@@ -109,7 +109,34 @@ footer{text-align:center;padding:18px;color:var(--muted);font-size:.73rem;
       <th onclick="sort(6)">Mkt Cap ↕</th>
     </tr>
   </thead>
-  <tbody id="tb"><tr><td colspan="7" class="empty">No stocks passed the filter this scan</td></tr></tbody>
+  <tbody id="tb">
+        <tr>
+          <td><a href="https://www.tradingview.com/chart/?symbol=NSE:OLECTRA" target="_blank" class="sym">OLECTRA</a></td>
+          <td class="num">₹1,259.80</td>
+          <td class="num" style="color:#3fb950;font-weight:700">+6.76%</td>
+          <td class="num">1,328,712</td>
+          <td class="num">396,590</td>
+          <td class="num" style="color:#f0a500;font-weight:800">3.35x</td>
+          <td class="num">₹10,340 Cr</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.tradingview.com/chart/?symbol=NSE:KPRMILL" target="_blank" class="sym">KPRMILL</a></td>
+          <td class="num">₹999.60</td>
+          <td class="num" style="color:#3fb950;font-weight:700">+3.42%</td>
+          <td class="num">326,052</td>
+          <td class="num">189,408</td>
+          <td class="num" style="color:#79c0ff;font-weight:800">1.72x</td>
+          <td class="num">₹34,238 Cr</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.tradingview.com/chart/?symbol=NSE:INOXWIND" target="_blank" class="sym">INOXWIND</a></td>
+          <td class="num">₹86.95</td>
+          <td class="num" style="color:#ff7b72;font-weight:700">-6.57%</td>
+          <td class="num">14,178,974</td>
+          <td class="num">9,210,615</td>
+          <td class="num" style="color:#79c0ff;font-weight:800">1.54x</td>
+          <td class="num">₹15,027 Cr</td>
+        </tr></tbody>
 </table>
 </div>
 
