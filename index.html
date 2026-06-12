@@ -84,7 +84,7 @@ footer{text-align:center;padding:18px;color:var(--muted);font-size:.73rem;
 </div>
 
 <div class="stats">
-  <div class="card"><div class="v">0</div><div class="l">Stocks Passing</div></div>
+  <div class="card"><div class="v">1</div><div class="l">Stocks Passing</div></div>
   <div class="card"><div class="v">892</div><div class="l">Total Screened</div></div>
   <div class="card"><div class="v">1.5x</div><div class="l">Min Vol Ratio</div></div>
   <div class="card"><div class="v">5K Cr</div><div class="l">Min Mkt Cap</div></div>
@@ -93,7 +93,7 @@ footer{text-align:center;padding:18px;color:var(--muted);font-size:.73rem;
 <div class="controls">
   <input class="search" id="srch" placeholder="🔍  Search symbol…" oninput="filter()">
   <button class="btn btn-refresh" onclick="location.reload()">🔄 Refresh</button>
-  <span class="time">Last scan: 12 Jun 2026  09:30:03 AM IST &nbsp;|&nbsp; Auto-refresh: 15 min</span>
+  <span class="time">Last scan: 12 Jun 2026  09:45:03 AM IST &nbsp;|&nbsp; Auto-refresh: 15 min</span>
 </div>
 
 <div class="wrap">
@@ -109,7 +109,16 @@ footer{text-align:center;padding:18px;color:var(--muted);font-size:.73rem;
       <th onclick="sort(6)">Mkt Cap ↕</th>
     </tr>
   </thead>
-  <tbody id="tb"><tr><td colspan="7" class="empty">No stocks passed the filter this scan</td></tr></tbody>
+  <tbody id="tb">
+        <tr>
+          <td><a href="https://www.tradingview.com/chart/?symbol=NSE:TATAINVEST" target="_blank" class="sym">TATAINVEST</a></td>
+          <td class="num">₹656.40</td>
+          <td class="num" style="color:#3fb950;font-weight:700">+3.02%</td>
+          <td class="num">518,143</td>
+          <td class="num">274,990</td>
+          <td class="num" style="color:#79c0ff;font-weight:800">1.88x</td>
+          <td class="num">₹33,210 Cr</td>
+        </tr></tbody>
 </table>
 </div>
 
